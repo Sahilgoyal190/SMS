@@ -17,6 +17,8 @@ var appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 //Components
 import Login from '../login.jsx';
 import Admin from '../containers/register/admin.jsx';
+import Schoool from '../containers/register/school.jsx';
+import SchoolList from '../containers/list/schools.jsx';
 
 
 const Home = () => {
@@ -39,6 +41,8 @@ module.exports = (
             <Route onEnter={checkAuth}>
                 <Route path='/home' component={Home} />
                 <Route path='/register/admin' component={Admin} />
+                <Route path='/register/school' component={Schoool} />
+                <Route path='/list/school' component={SchoolList} />
             </Route>
         </Router>
     </Provider>

@@ -21,27 +21,33 @@ class Admin extends Component {
         this.validate = this.validate.bind(this);
     }
 
-   
-    
-    validate(){
+
+
+    validate() {
         let firstname = this.refs.firstname.value;
         let lastname = this.refs.lastname.value;
         let email = this.refs.email.value;
         let password = this.refs.pwd.value;
         let repassword = this.refs.rpwd.value;
 
-        firstname=='' &&  (this.state.firstNameError = 'First Name can not be blank');
-        lastname=='' &&  (this.state.lastNameError = 'Last Name can not be blank');
-        if(email=='') this.state.emaiError = 'Email can not be blank';
-        else if(!validateEmail(email)) this.state.emaiError = 'Please Enter a valid Email Address'
-        if(password=='') this.state.emaiError = 'Password can not be blank';
-        else if(!validatePassword(password)) this.state.passwordError = 'Password must have 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character'
-        
+        firstname == '' && (this.state.firstNameError = 'First Name can not be blank');
+        lastname == '' && (this.state.lastNameError = 'Last Name can not be blank');
+        if (email == '') this.state.emaiError = 'Email can not be blank';
+        else if (!validateEmail(email)) this.state.emaiError = 'Please Enter a valid Email Address'
+        if (password == '') this.state.emaiError = 'Password can not be blank';
+        else if (!validatePassword(password)) this.state.passwordError = 'Password must have 1 Uppercase, 1 Lowercase, 1 Number and 1 Special Character'
+
 
     }
 
-    submit(){
-        let err = this.validate();
+    submit() {
+        // let err = this.validate();
+         let email = this.refs.email.value;
+        let password = this.refs.pwd.value;
+
+        firebase.auth().createUserWithEmailAndPassword(email,password).then((result) => {
+                console.log(result)
+            })
     }
 
     render() {
@@ -50,23 +56,23 @@ class Admin extends Component {
                 <h1>Admin</h1>
                 <form className="col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4  col-sm-8 col-sm-offset-2 col-xs-12">
                     <div className="form-group">
-                        <label for="fname">Firstname:</label>
+                        <label htmlFor="fname">Firstname:</label>
                         <input type="text" className="form-control" ref="fname" />
                     </div>
                     <div className="form-group">
-                        <label for="lname">Lastname:</label>
+                        <label htmlFor="lname">Lastname:</label>
                         <input type="text" className="form-control" ref="lname" />
                     </div>
                     <div className="form-group">
-                        <label for="email">Email:</label>
+                        <label htmlFor="email">Email:</label>
                         <input type="email" className="form-control" ref="email" />
                     </div>
                     <div className="form-group">
-                        <label for="pwd">Password:</label>  
+                        <label htmlFor="pwd">Password:</label>
                         <input type="password" className="form-control" ref="pwd" />
                     </div>
                     <div className="form-group">
-                        <label for="rpwd">Confirm Password:</label>
+                        <label htmlFor="rpwd">Confirm Password:</label>
                         <input type="password" className="form-control" ref="rpwd" />
                     </div>
                     {this.state.error && <div className="alert alert-danger">{this.state.error}</div>}
