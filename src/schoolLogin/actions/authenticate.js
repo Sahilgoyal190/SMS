@@ -8,6 +8,7 @@ export const authenticateUser = (username,password,location) => {
                 .then(snapshot => {
                     console.log(snapshot.val())
                     dispatch({type:'Authenticate_login',data: true})
+                    dispatch({type:'LOGGEDIN_USER_DATA',data: snapshot.val()})
                     location ? window.location.assign(location) :window.location.assign('/#/home');
                 }).catch(err => console.log(err))
         })

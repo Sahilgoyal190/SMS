@@ -2,7 +2,8 @@
 
 export default {
   authenticate: {
-    loggedIn: false
+    loggedIn: false,
+    loggedIn_userData:null
   }
 };
 

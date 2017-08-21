@@ -68,7 +68,7 @@ class SchoolList extends Component {
                                         <th>{s.state}</th>
                                         <th>{s.country}</th>
                                         <th>{s.address}</th>
-                                        <th>{this.getTime(s.ca)}</th>
+                                        <th>{this.getTime(s.createdAt)}</th>
                                     </tr>
                                 )
                             })

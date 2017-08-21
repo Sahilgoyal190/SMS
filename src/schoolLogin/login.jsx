@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as authenticateAction from './actions/authenticate';
 import { validateEmail } from './lib/util.js'
+
 // var style = require('../scss/login.scss');
 
 
@@ -15,14 +16,14 @@ class Login extends Component {
             error: null
         }
     }
-
+    
     authenticate() {
         let username = this.refs.username.value
         if (validateEmail(username)) {
             this.props.authenticateAction.authenticateUser(username,this.refs.password.value)
         }
     }
-
+    
     render() {
         return (
             <div>

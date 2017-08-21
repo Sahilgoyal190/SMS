@@ -3,7 +3,14 @@ import firebase from 'firebase';
 import states from '../../constant/states.jsx';
 import vocab from '../../constant/vocab.jsx';
 
-class Schoool extends Component {
+
+// Redux Connect with Actions
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as authenticateAction from '../../actions/authenticate';
+import { validateEmail } from '../../lib/util.js'
+
+class MyProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -35,7 +42,7 @@ class Schoool extends Component {
             state,
             country,
             address,
-            createdAt:now
+            createdAt: now
         }).then(() => {
             this.setState({ success: true })
             this.refs['sname'].value = null;
@@ -48,6 +55,7 @@ class Schoool extends Component {
     }
 
     render() {
+        console.log(this.props.userData)
         return (
             <div className="container-fluid">
                 <h1>School</h1>
@@ -89,4 +97,18 @@ class Schoool extends Component {
     }
 }
 
-export default Schoool
+function mapStateToProps(state) {
+    return {
+        userData: state.authenticate.loggedIn_userData,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        authenticateAction: bindActionCreators(authenticateAction, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);
+
+// export default MyProfile
