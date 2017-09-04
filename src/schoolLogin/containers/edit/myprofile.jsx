@@ -3,12 +3,16 @@ import firebase from 'firebase';
 import states from '../../constant/states.jsx';
 import vocab from '../../constant/vocab.jsx';
 
-
 // Redux Connect with Actions
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as authenticateAction from '../../actions/authenticate';
 import { validateEmail } from '../../lib/util.js'
+import Profile from '../../component/forms/studentProfile.jsx';
+import ImageUpload from '../../component/general/picUpload.jsx';
+import Modal from '../../component/general/modal.jsx';
+
+
 
 class MyProfile extends Component {
     constructor(props) {
@@ -17,8 +21,11 @@ class MyProfile extends Component {
             error: null,
             states: states,
             success: false,
+            showModal:false,
         }
         this.submit = this.submit.bind(this);
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
     }
 
     submit() {
@@ -54,45 +61,25 @@ class MyProfile extends Component {
         })
     }
 
+    handleOpenModal() {
+        this.setState({ showModal: true });
+    }
+
+    handleCloseModal() {
+        this.setState({ showModal: false });
+    }
+
+    handleUpload(url){
+        this.setState({ imageUrl: url });
+    }
     render() {
         console.log(this.props.userData)
         return (
-            <div className="container-fluid">
-                <h1>School</h1>
-                {this.state.success && <div className="alert alert-success">{`School ${vocab.sucess}`}</div>}
-                <form className="col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4  col-sm-8 col-sm-offset-2 col-xs-12">
-                    <div className="form-group">
-                        <label htmlFor="sname">School Name:</label>
-                        <input type="text" className="form-control" ref="sname" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="address">Address:</label>
-                        <textarea className="form-control" name="address" ref="address" rows="5"></textarea>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="city">City:</label>
-                        <input type="text" className="form-control" ref="city" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="zip">ZIP/PIN:</label>
-                        <input type="number" className="form-control" ref="zip" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="state">State:</label>
-                        <select className="form-control" name="state" ref="state">
-                            {
-                                this.state.states.map(s => <option key={s.name} value={s.name}>{s.name}</option>)
-                            }
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="country">Country:</label>
-                        <input type="text" className="form-control" ref="country" value="India" disabled={true} />
-                    </div>
-                    {this.state.error && <div className="alert alert-danger">Please fill all fields carefully</div>}
-                    <button type="button" className="btn btn-block btn-primary" onClick={this.submit}>Register School</button>
-                </form>
+            <div>
+                <Modal content={<ImageUpload handleUpload={this.handleUpload} userData={this.props.userData}/>} showModal={this.state.showModal} handleCloseModal={this.handleCloseModal}/>
+                <Profile openModal={this.handleOpenModal}/>
             </div>
+
         )
     }
 }
